@@ -1,0 +1,2 @@
+# logman
+A logger manager
