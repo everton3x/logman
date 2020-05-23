@@ -5,6 +5,7 @@ $logman = new \LogMan\LogMan();
 
 $logger1 = new \LogMan\Logger\StdOutLogger();
 $logger1->setLoggerName('José');
+
 $logger2 = new \LogMan\Logger\StdOutLogger();
 $logger2->setLoggerName('Maria');
 
