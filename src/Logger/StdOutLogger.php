@@ -129,8 +129,9 @@ class StdOutLogger implements LoggerInterface
      */
     public function log($level, $message, array $context = array()): void
     {
-        $messageFormatted = str_pad("[ $level ]", 20, ' ', STR_PAD_RIGHT) . $message . PHP_EOL;
-        fwrite(STDOUT, $messageFormatted);
+//        $messageFormatted = str_pad("[ $level ]", 20, ' ', STR_PAD_RIGHT) . $message . PHP_EOL;
+//        fwrite(STDOUT, $messageFormatted);
+        fwrite(STDOUT, $message);
     }
 
     /**

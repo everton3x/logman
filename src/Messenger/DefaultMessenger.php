@@ -20,6 +20,12 @@ class DefaultMessenger implements MessengerInterface
     protected LogMan $logman;
 
     /**
+     *
+     * @var string Template for messages. This supports the following placeholders: level, time, message, loggerName
+     */
+    protected string $template = "[{level}]\t\t{time}\t{message} in {loggerName}\n\r";
+
+    /**
      * 
      * @param LogMan $logman
      */
@@ -132,8 +138,17 @@ class DefaultMessenger implements MessengerInterface
         }
 
         $levelAssigned = $this->logman->getLoggerAssigndTo($level);
+        $time = date('Y-m-d H:i:s');
 
         foreach ($levelAssigned as $logger) {
+            
+            $message = $this->applyTemplate([
+                'level' => $level,
+                'time' => $time,
+                'message' => $message,
+                'loggerName' => $logger->getLoggerName()
+            ]);
+            
             $is = 'is' . ucfirst($level);
             if ($this->logman->{$is}()) {
                 $logger->{$level}($message, $context);
@@ -163,5 +178,37 @@ class DefaultMessenger implements MessengerInterface
         }
 
         return $message;
+    }
+
+    protected function applyTemplate(array $placeholder): string
+    {
+        $message = $this->template;
+        foreach ($placeholder as $key => $value) {
+            $message = preg_replace("/\{$key\}/", $value, $message);
+        }
+
+        return $message;
+    }
+
+    /**
+     * Setter for the message template.
+     * 
+     * @param string $template
+     * @see DefaultMessenger::$template
+     */
+    public function setTemplate(string $template)
+    {
+        $this->template = $template;
+    }
+
+    /**
+     * Getter for the message template.
+     * 
+     * @return string
+     * @see DefaultMessenger::$template
+     */
+    public function getTemplate(): string
+    {
+        return $this->template;
     }
 }
