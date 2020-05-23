@@ -141,14 +141,14 @@ class DefaultMessenger implements MessengerInterface
         $time = date('Y-m-d H:i:s');
 
         foreach ($levelAssigned as $logger) {
-            
+
             $message = $this->applyTemplate([
                 'level' => $level,
                 'time' => $time,
                 'message' => $message,
                 'loggerName' => $logger->getLoggerName()
             ]);
-            
+
             $is = 'is' . ucfirst($level);
             if ($this->logman->{$is}()) {
                 $logger->{$level}($message, $context);

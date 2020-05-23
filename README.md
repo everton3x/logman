@@ -59,6 +59,10 @@ The source code is all commented out. Documentation in other formats is on the w
 - PHPUnit tests
 - More examples
 
+**version 0.2.0**
+
+- Added context and template for messages support;
+
 **version 0.1.0**
 
 - Initial release

@@ -23,7 +23,7 @@ interface MessengerInterface
      * @param LogMan $logman
      */
     public function __construct(LogMan $logman);
-    
+
     /**
      * 
      * @param type $message
@@ -87,14 +87,14 @@ interface MessengerInterface
      * @see \Psr\Log\LoggerInterface::debug()
      */
     public function debug($message, array $context = []);
-    
+
     /**
      * Setter for the message template.
      * 
      * @param string $template
      */
     public function setTemplate(string $template);
-    
+
     /**
      * Getter for the message template.
      * @return string
