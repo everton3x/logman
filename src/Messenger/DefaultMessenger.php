@@ -126,6 +126,11 @@ class DefaultMessenger implements MessengerInterface
      */
     protected function sendMessage($level, $message, array $context = [])
     {
+
+        if ($context) {
+            $message = $this->applyContext($message, $context);
+        }
+
         $levelAssigned = $this->logman->getLoggerAssigndTo($level);
 
         foreach ($levelAssigned as $logger) {
@@ -134,5 +139,29 @@ class DefaultMessenger implements MessengerInterface
                 $logger->{$level}($message, $context);
             }
         }
+    }
+
+    /**
+     * Placeholder names MUST correspond to keys in the context array.
+     * 
+     * Placeholder names MUST be delimited with a single opening brace { and 
+     * a single closing brace }. There MUST NOT be any whitespace between the 
+     * delimiters and the placeholder name.
+     * 
+     * Placeholder names SHOULD be composed only of the characters A-Z, a-z, 
+     * 0-9, underscore _, and period ..
+     * 
+     * @param string $message
+     * @param array $context
+     * @return string
+     * @link https://www.php-fig.org/psr/psr-3/ PSR-3 in PHP-FIG.
+     */
+    protected function applyContext(string $message, array $context): string
+    {
+        foreach ($context as $key => $value) {
+            $message = preg_replace("/\{$key\}/", $value, $message);
+        }
+
+        return $message;
     }
 }
